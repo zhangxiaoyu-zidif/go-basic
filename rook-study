@@ -1,0 +1,23 @@
+1. install rook:
+
+please install kubernetes firstly.
+
+https://rook.io/docs/rook/master/k8s-pre-reqs.html
+
+rook uses the CRD as its resource object.
+
+```yaml
+apiVersion: rook.io/v1alpha1
+kind: Pool
+metadata:
+  name: ecpool
+  namespace: rook
+spec:
+  replicated:
+  #  size: 3         # The number of copies of the data in the pool.
+  erasureCoded:
+    dataChunks: 2    # Number of data chunks per object in an erasure coded storage pool
+    codingChunks: 1  # Number of coding chunks per object in an erasure coded storage pool
+  crushRoot: default # The root in the crush map to be used by the pool.
+```
+
