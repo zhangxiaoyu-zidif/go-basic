@@ -10,6 +10,15 @@ vi /etc/fstab
 原1.6:
 KUBELET_ARGS="--kubeconfig=/etc/kubernetes/kubelet.kubeconfig --pod-manifest-path=/etc/kubernetes/manifests --log-dir=/etc/kubernetes/logs --cluster-dns=10.254.0.10 --cluster-domain=cluster.local --logtostderr=true --allow-privileged=true"
 
+
+通过curl命令创建pod的demo：
+```shell
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"apiVersion": "v1", "kind": "Pod", "metadata": { "name": "nginx-aaaa", "namespace": "default"}, "spec": { "containers": [{"name": "aaaa","image": "gcr.io/google_containers/busybox:latest","imagePullPolicy": "Never"}]}}' \
+http://103.103.103.183:8080/api/v1/namespaces/default/pods
+```
+
 1.8:
 KUBELET_ARGS="--cgroup-driver=cgroupfs --port=10250 --log-dir=/etc/kubernetes/logs --cluster-dns=10.254.0.10 --enable-controller-attach-detach=true --logtostderr=false --address=0.0.0.0 --hostname-override=3.3.3.198 --allow-privileged=true --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --pod-manifest-path=/etc/kubernetes/manifests"
 
@@ -17,7 +26,7 @@ KUBELET_ARGS="--cgroup-driver=cgroupfs --port=10250 --log-dir=/etc/kubernetes/lo
 
 
 
-
+```shell
 root      1066     1  1 09:03 ?        00:01:00 /usr/bin/kube-proxy --logtostderr=true --v=8 --master=http://127.0.0.1:8080
 root      1375     1  0 09:03 ?        00:00:06 /usr/bin/flanneld -etcd-endpoints=http://all-in-one:2379 -etcd-prefix=/kube-centos/network
 kube      7099     1  1 09:40 ?        00:00:15 /usr/bin/kube-scheduler --logtostderr=true --v=8 --master=http://127.0.0.1:8080
@@ -27,4 +36,4 @@ root     10490  7793  4 09:52 pts/0    00:00:06 /root/gopath/src/k8s.io/kubernet
 root     10504 10489  0 09:52 pts/0    00:00:01 /root/gopath/src/k8s.io/kubernetes/_output/local/bin/linux/amd64/hyperkube proxy --config=/tmp/kube-proxy.yaml --master=https://localhost:6443 --v=3
 root     10664  7793  0 09:52 pts/0    00:00:00 sudo -E /root/gopath/src/k8s.io/kubernetes/_output/local/bin/linux/amd64/hyperkube kubelet --v=3 --vmodule= --chaos-chance=0.0 --container-runtime=docker --rkt-path= --rkt-stage1-image= --hostname-override=127.0.0.1 --cloud-provider= --cloud-config= --address=127.0.0.1 --kubeconfig /var/run/kubernetes/kubelet.kubeconfig --feature-gates=AllAlpha=false --cpu-cfs-quota=true --enable-controller-attach-detach=true --cgroups-per-qos=true --cgroup-driver=systemd --keep-terminated-pod-volumes=true --eviction-hard=memory.available<100Mi,nodefs.available<10%,nodefs.inodesFree<5% --eviction-soft= --eviction-pressure-transition-period=1m --pod-manifest-path=/var/run/kubernetes/static-pods --fail-swap-on=false --cluster-dns=10.0.0.10 --cluster-domain=cluster.local --port=10250
 root     10666 10664  5 09:52 pts/0    00:00:08 /root/gopath/src/k8s.io/kubernetes/_output/local/bin/linux/amd64/hyperkube kubelet --v=3 --vmodule= --chaos-chance=0.0 --container-runtime=docker --rkt-path= --rkt-stage1-image= --hostname-override=127.0.0.1 --cloud-provider= --cloud-config= --address=127.0.0.1 --kubeconfig /var/run/kubernetes/kubelet.kubeconfig --feature-gates=AllAlpha=false --cpu-cfs-quota=true --enable-controller-attach-detach=true --cgroups-per-qos=true --cgroup-driver=systemd --keep-terminated-pod-volumes=true --eviction-hard=memory.available<100Mi,nodefs.available<10%,nodefs.inodesFree<5% --eviction-soft= --eviction-pressure-transition-period=1m --pod-manifest-path=/var/run/kubernetes/static-pods --fail-swap-on=false --cluster-dns=10.0.0.10 --cluster-domain=cluster.local --port=10250
-
+```
