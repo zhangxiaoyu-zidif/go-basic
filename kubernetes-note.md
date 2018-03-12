@@ -2,6 +2,7 @@
 ```shell
 kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t\t\t"}{.metadata.uid}{"\n"}'
 ```
+[ref here](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
 
 #### kubernetes 1.8之后的启动参数
 
