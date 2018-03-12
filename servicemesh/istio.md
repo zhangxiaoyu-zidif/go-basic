@@ -7,6 +7,8 @@ we need not change any code of microservices. =)
 ## preparation
 1. install kubernetes, >= 1.9 will be better.
 
+in fact, i recommand to use ./hack/local-up-cluster.sh to start a local cluster for testing.
+
 2. get binaries and configs from git.io
 
 ```shell
