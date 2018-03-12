@@ -13,7 +13,8 @@ we need not change any code of microservices. =)
 curl -L https://git.io/getLatestIstio | sh -
 ```
 
-add path:
+add path into ~/.profile and remember to source it to make it work at once!:
+
 export PATH="$PATH:/home/cloud/istio-0.6.0/bin"
 
 ```shell
