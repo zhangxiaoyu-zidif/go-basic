@@ -44,6 +44,8 @@ istio-ingress   LoadBalancer   10.0.0.101   <pending>     80:31661/TCP,443:31485
 istio-mixer     ClusterIP      10.0.0.158   <none>        9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,9125/UDP,42422/TCP   13m
 istio-pilot     ClusterIP      10.0.0.194   <none>        15003/TCP,8080/TCP,9093/TCP,443/TCP
 ```
-Note: If your cluster is running in an environment that does not support an external load balancer (e.g., minikube), the EXTERNAL-IP of istio-ingress says <pending>. You must access the application using the service NodePort, or use port-forwarding instead.
+Note: If your cluster is running in an environment that does not support an external load balancer (e.g., minikube), the EXTERNAL-IP of istio-ingress says <pending>. You must access the application using the service NodePort, or use port-forwarding instead. [ref here](https://kubernetes.io/docs/concepts/services-networking/service/)
+  
+  
   
 
