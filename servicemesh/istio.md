@@ -102,5 +102,34 @@ Flags:
 Use "istioctl [command] --help" for more information about a command.
 
 ```
-  
+
+### how to inject sidercar named `envoy` into your application
+
+1. inject it into the namespaces
+e.g.:
+```shell
+kubectl create namespace istio-test
+namespace "istio-test" created
+
+kubectl label namespace istio-test istio-injection=enabled
+namespace "istio-test" labeled
+
+kubectl get ns --show-labels
+NAME           STATUS    AGE       LABELS
+default        Active    49m       <none>
+istio-system   Active    42m       <none>
+istio-test     Active    11m       istio-injection=enabled
+kube-public    Active    49m       <none>
+kube-system    Active    49m       <none>
+
+```
+
+2. inject it into application directly
+```shell
+kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
+Attention for this way[ref here](https://istio.io/docs/reference/commands/istioctl.html#istioctl kube-inject):
+kube-inject manually injects envoy sidecar into kubernetes workloads. Unsupported resources are left unmodified so it is safe to run kube-inject over a single file that contains multiple Service, ConfigMap, Deployment, etc. definitions for a complex application. Its best to do this when the resource is initially created.
+
+
 
