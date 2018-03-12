@@ -1,3 +1,8 @@
+#### 打印制定的pod name和uid
+```shell
+kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t\t\t"}{.metadata.uid}{"\n"}'
+```
+
 1.关闭 swap
 具体操作：
 vi /etc/fstab
