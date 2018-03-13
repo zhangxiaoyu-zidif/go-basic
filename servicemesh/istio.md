@@ -467,6 +467,155 @@ status:
   startTime: 2018-03-13T02:24:27Z
 ```
 
+See from the examples above we know that the deplpoyment has been changed or modified by
+`install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml`
+which is
+```shell
+# GENERATED FILE. Use with Kubernetes 1.9+
+# TO UPDATE, modify files in install/kubernetes/templates and run install/updateVersion.sh
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-sidecar-injector
+  namespace: istio-system
+  labels:
+    istio: sidecar-injector
+spec:
+  ports:
+  - name: https-webhook # optional
+    port: 443
+  selector:
+    istio: sidecar-injector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: istio-sidecar-injector-service-account
+  namespace: istio-system
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: istio-sidecar-injector
+  namespace: istio-system
+  labels:
+    istio: sidecar-injector
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: istio-sidecar-injector
+      labels:
+        istio: sidecar-injector
+    spec:
+      serviceAccountName: istio-sidecar-injector-service-account
+      containers:
+        - name: webhook
+          image: docker.io/istio/sidecar_injector:0.6.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - --tlsCertFile=/etc/istio/certs/cert.pem
+            - --tlsKeyFile=/etc/istio/certs/key.pem
+            - --injectConfig=/etc/istio/inject/config
+            - --meshConfig=/etc/istio/config/mesh
+            - --healthCheckInterval=2s
+            - --healthCheckFile=/health
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/istio/config
+            readOnly: true
+          - name: certs
+            mountPath: /etc/istio/certs
+            readOnly: true
+          - name: inject-config
+            mountPath: /etc/istio/inject
+            readOnly: true
+          livenessProbe:
+            exec:
+              command:
+                - /usr/local/bin/sidecar-injector
+                - probe
+                - --probe-path=/health
+                - --interval=2s
+            initialDelaySeconds: 4
+            periodSeconds: 4
+          readinessProbe:
+            exec:
+              command:
+                - /usr/local/bin/sidecar-injector
+                - probe
+                - --probe-path=/health
+                - --interval=2s
+            initialDelaySeconds: 4
+            periodSeconds: 4
+      volumes:
+      - name: config-volume
+        configMap:
+          name: istio
+      - name: certs
+        secret:
+          secretName: sidecar-injector-certs
+      - name: inject-config
+        configMap:
+          name: istio-inject
+          items:
+          - key: config
+            path: config
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: istio-sidecar-injector
+webhooks:
+  - name: sidecar-injector.istio.io
+    clientConfig:
+      service:
+        name: istio-sidecar-injector
+        namespace: istio-system
+        path: "/inject"
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRFNE1ETXhNekF4TkRRMU5Wb1hEVEk0TURNeE1EQXhORFExTlZvd0ZURVRNQkVHQTFVRQpBeE1LYldsdWFXdDFZbVZEUVRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSlR0Cm9XMkEzelpHRE9FQ1hQMnlBMWs5Z21KWnVVQU91V1BQREkwa1A0U1hXMjBXZGhDaWlqVmZkMEc3T1lpclI0dmMKRURxOGIvek02TjZqeCtwblhpek1QTnlkak5zV215eUU5QkFRWVkxa1FTcDB1Mm9HeVpON1Q1N0RMMUlRVVVVKwpzdEYyYmNOZkRyV2NaSWJUcFF5b1orYjlDMXBQYXB6RWQ1QzNWbVF0bnk0Z0M2QTJHejY1eEdXZjVTQnJ5a0QvCm5EWHBSendpVEFTcGpVUko1L2RHZWprazlaWEFrSk51UmdPT1F0T3FOVHFmbktHblVEbTVTOURlQVBoQ1lIWFAKQkFHb0txWWtETDI3U0gwMStrVENjcTlmb3BKK0wyYjhhSUtsYlk1dDRNc0tteFhtTjVmb0Z5YjlRd2JYWm9ETgpJSjMrQStFTVVzVWl3NVpGTWQ4Q0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUIwR0ExVWRKUVFXCk1CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFBMmN4QjR6RXdSeHNUbXpIRUlUYkJQaFhOTVlIa2R6UStXU21ydXVqNW41aE9pcW1DTwpXTTd5RE9FVGNjSmx2S21Bdm15VlpWaHoxdWtUM2s5dEMxWUlXc2JHeTFwWTFMMStyQ3lLYkVpOStLUm1tcFV0CnVJY0JhQ2VVM05sR0VWdGlZR3lldXpmcUFpRDdvck84YzFrRzRNSURqUHVzT1NNaTlpYkd1aDBmTzh3bUVxb1IKTmtMQVhhYUFMQjZvZC9ybDA1VlNnS2JCYzh5RUNDZUtCRDJwYWkyTDdTYjBaeUxnSEZGaUhnRXF1UTIyM2l6VAppS2RIS1hRZDNTNGpEMjBBcTFHQTA2Mm82dXZRYUUvUStpdW95clVZSk9lRU1LK0ZYZXRCd0xRem5oaXI3RFpSCkVtRkpkMDhBZVNUcnNpQWNKd0xkTVZ3MlM3SzRHSG92SW55TwotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchLabels:
+        istio-injection: enabled
+---
+```
 
+the original APP script is 
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: sleep
+  labels:
+    app: sleep
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: sleep
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sleep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sleep
+    spec:
+      containers:
+      - name: sleep
+        image: tutum/curl
+        command: ["/bin/sleep","infinity"]
+        imagePullPolicy: IfNotPresent
+```
 
 
