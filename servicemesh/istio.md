@@ -7,7 +7,22 @@ we need not change any code of microservices. =)
 ## preparation
 1. install kubernetes, >= 1.9 will be better.
 
-in fact, i recommand to use ./hack/local-up-cluster.sh to start a local cluster for testing.
+in fact, i recommand to use minikube rather than ./hack/local-up-cluster.sh to start a local cluster for testing.
+
+that's becasue you should modify many parameter such as kubectl command .etc. Some accidents will cause unncessary troubles.
+
+start a minikube ref [here](https://github.com/kubernetes/minikube/blob/v0.25.0/README.md#quickstart)
+
+if your host env is linux, that'll be great. run
+```shell
+
+minikube start \
+	--extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
+	--extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
+	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
+	--kubernetes-version=v1.9.0 \
+  --vm-driver=none
+```
 
 2. get binaries and configs from git.io
 
