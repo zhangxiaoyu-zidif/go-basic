@@ -169,8 +169,304 @@ Attention for this way[ref here](https://istio.io/docs/reference/commands/istioc
 kube-inject manually injects envoy sidecar into kubernetes workloads. Unsupported resources are left unmodified so it is safe to run kube-inject over a single file that contains multiple Service, ConfigMap, Deployment, etc. definitions for a complex application. Its best to do this when the resource is initially created.
 
 
+what happened when injecct a sidecar to our own App？
 ![beforeAndAfterInjection.png](pic/beforeAndAfterInjection.png)
-```shell
 
+```shell
+# execute it in two namespaces, one is injected with sidecar, the other one is not.
+kubectl apply -f samples/sleep/sleep.yaml 
+
+
+# without injection
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: 2018-03-13T02:46:57Z
+  generateName: sleep-776b7bcdcd-
+  labels:
+    app: sleep
+    pod-template-hash: "3326367878"
+  name: sleep-776b7bcdcd-bfh7c
+  namespace: test
+  ownerReferences:
+  - apiVersion: extensions/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: sleep-776b7bcdcd
+    uid: cc215325-2668-11e8-b230-5254005c78d5
+  resourceVersion: "4151"
+  selfLink: /api/v1/namespaces/test/pods/sleep-776b7bcdcd-bfh7c
+  uid: cc223632-2668-11e8-b230-5254005c78d5
+spec:
+  containers:
+  - command:
+    - /bin/sleep
+    - infinity
+    image: tutum/curl
+    imagePullPolicy: IfNotPresent
+    name: sleep
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-2plv6
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  nodeName: ubuntu
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-2plv6
+    secret:
+      defaultMode: 420
+      secretName: default-token-2plv6
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: 2018-03-13T02:46:57Z
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: 2018-03-13T02:46:59Z
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: 2018-03-13T02:46:57Z
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://29c73a3c2d5d136d4e32bd5d1961543eeeaeecad726aa811866908a4b3d68a6e
+    image: tutum/curl:latest
+    imageID: docker-pullable://tutum/curl@sha256:b6f16e88387acd4e6326176b212b3dae63f5b2134e69560d0b0673cfb0fb976f
+    lastState: {}
+    name: sleep
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: 2018-03-13T02:46:58Z
+  hostIP: 192.168.122.40
+  phase: Running
+  podIP: 172.17.0.10
+  qosClass: BestEffort
+  startTime: 2018-03-13T02:46:57Z
+  
+  
+# with injection
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    sidecar.istio.io/status: '{"version":"1771e5b7d0647c27f709e5194dc91147762ea6dccc6581f791d2de544250cdc1","initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["istio-envoy","istio-certs"]}'
+  creationTimestamp: 2018-03-13T02:24:27Z
+  generateName: sleep-776b7bcdcd-
+  labels:
+    app: sleep
+    pod-template-hash: "3326367878"
+  name: sleep-776b7bcdcd-cvjx4
+  namespace: default
+  ownerReferences:
+  - apiVersion: extensions/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: sleep-776b7bcdcd
+    uid: a71c4e9a-2665-11e8-b230-5254005c78d5
+  resourceVersion: "3042"
+  selfLink: /api/v1/namespaces/default/pods/sleep-776b7bcdcd-cvjx4
+  uid: a724d201-2665-11e8-b230-5254005c78d5
+spec:
+  containers:
+  - command:
+    - /bin/sleep
+    - infinity
+    image: tutum/curl
+    imagePullPolicy: IfNotPresent
+    name: sleep
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-cznsq
+      readOnly: true
+  - args:
+    - proxy
+    - sidecar
+    - --configPath
+    - /etc/istio/proxy
+    - --binaryPath
+    - /usr/local/bin/envoy
+    - --serviceCluster
+    - sleep
+    - --drainDuration
+    - 45s
+    - --parentShutdownDuration
+    - 1m0s
+    - --discoveryAddress
+    - istio-pilot.istio-system:15003
+    - --discoveryRefreshDelay
+    - 1s
+    - --zipkinAddress
+    - zipkin.istio-system:9411
+    - --connectTimeout
+    - 10s
+    - --statsdUdpAddress
+    - istio-mixer.istio-system:9125
+    - --proxyAdminPort
+    - "15000"
+    - --controlPlaneAuthPolicy
+    - NONE
+    env:
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: INSTANCE_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    image: docker.io/istio/proxy:0.6.0
+    imagePullPolicy: IfNotPresent
+    name: istio-proxy
+    resources: {}
+    securityContext:
+      privileged: false
+      readOnlyRootFilesystem: true
+      runAsUser: 1337
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/istio/proxy
+      name: istio-envoy
+    - mountPath: /etc/certs/
+      name: istio-certs
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  initContainers:
+  - args:
+    - -p
+    - "15001"
+    - -u
+    - "1337"
+    image: docker.io/istio/proxy_init:0.6.0
+    imagePullPolicy: IfNotPresent
+    name: istio-init
+    resources: {}
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  nodeName: ubuntu
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-cznsq
+    secret:
+      defaultMode: 420
+      secretName: default-token-cznsq
+  - emptyDir:
+      medium: Memory
+    name: istio-envoy
+  - name: istio-certs
+    secret:
+      defaultMode: 420
+      optional: true
+      secretName: istio.default
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: 2018-03-13T02:24:43Z
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: 2018-03-13T02:25:09Z
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: 2018-03-13T02:24:27Z
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://b0e28d870f93d71cbdbdb75c16a5e95403aef0003972805c237adb2e8369346d
+    image: istio/proxy:0.6.0
+    imageID: docker-pullable://istio/proxy@sha256:51ec13f9708238351a8bee3c69cf0cf96483eeb03a9909dea12306bbeb1d1a9d
+    lastState: {}
+    name: istio-proxy
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: 2018-03-13T02:25:09Z
+  - containerID: docker://6cbbe86812f15056a8825cf9ac1fcc3ddfb004b9f279ff08a5d32f26ea19b170
+    image: tutum/curl:latest
+    imageID: docker-pullable://tutum/curl@sha256:b6f16e88387acd4e6326176b212b3dae63f5b2134e69560d0b0673cfb0fb976f
+    lastState: {}
+    name: sleep
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: 2018-03-13T02:25:08Z
+  hostIP: 192.168.122.40
+  initContainerStatuses:
+  - containerID: docker://0aeb597589618d75e0dccdcc85771a1871aa119d3cea394f4ce93d4981d18911
+    image: istio/proxy_init:0.6.0
+    imageID: docker-pullable://istio/proxy_init@sha256:bd1cb7b79e3e3398729d49b2307dbc3335d3182540c740e468340c9490b2880b
+    lastState: {}
+    name: istio-init
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://0aeb597589618d75e0dccdcc85771a1871aa119d3cea394f4ce93d4981d18911
+        exitCode: 0
+        finishedAt: 2018-03-13T02:24:43Z
+        reason: Completed
+        startedAt: 2018-03-13T02:24:43Z
+  phase: Running
+  podIP: 172.17.0.9
+  qosClass: BestEffort
+  startTime: 2018-03-13T02:24:27Z
 ```
+
+
+
 
