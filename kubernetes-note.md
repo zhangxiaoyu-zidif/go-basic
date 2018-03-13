@@ -4,6 +4,24 @@ kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t\t\t"}{.metad
 ```
 [ref here](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
 
+#### 直接创建yaml文件方式
+参考：
+```yaml
+cat <<EOF | kubectl create -f -
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: ${csrName}
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat ${tmpdir}/server.csr | base64 | tr -d '\n')
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+```
 #### kubernetes 1.8之后的启动参数
 
 1.关闭 swap
