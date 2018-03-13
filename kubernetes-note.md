@@ -1,4 +1,4 @@
-#### 打印制定的pod name和uid
+#### 打印指定的pod name和uid
 ```shell
 kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t\t\t"}{.metadata.uid}{"\n"}'
 ```
