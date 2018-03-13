@@ -618,4 +618,4 @@ spec:
         imagePullPolicy: IfNotPresent
 ```
 
-
+The sleep pod which uses istio has one more containers. That is envoy-proxy.
