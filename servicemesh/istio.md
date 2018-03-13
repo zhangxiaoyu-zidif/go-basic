@@ -169,6 +169,7 @@ Attention for this way[ref here](https://istio.io/docs/reference/commands/istioc
 kube-inject manually injects envoy sidecar into kubernetes workloads. Unsupported resources are left unmodified so it is safe to run kube-inject over a single file that contains multiple Service, ConfigMap, Deployment, etc. definitions for a complex application. Its best to do this when the resource is initially created.
 
 
+![beforeAndAfterInjection.png](pic/beforeAndAfterInjection.png)
 ```shell
 
 ```
