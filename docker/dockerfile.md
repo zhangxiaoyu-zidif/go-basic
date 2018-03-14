@@ -1,3 +1,5 @@
+从https://github.com/zhangpeihao/LearningDocker/edit/master/manuscript/04-WriteDockerfile.md 获取
+
 # 编写Dockerfile
 
 ## 学习boot2docker的Dockerfles
