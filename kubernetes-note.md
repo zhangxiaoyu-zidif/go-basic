@@ -22,6 +22,28 @@ spec:
   - server auth
 EOF
 ```
+
+#### pod中执行kubernetes操作
+1copy一个kubectl工具到pod中。并copy master上的/root/.kube/config文件到pod中相同路径下。（这样就可以在pod中直接使用kubectl命令，来操作pod部署）
+
+2在pod中使用kubectl创建pod命令
+
+3 curl方式
+利用kubernetes的的创建pod接口：/api/v1/namespaces/default/pods
+我们可以发送post请求给apiserver直接创建一个pod，例如：
+在pod中发送：
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"apiVersion": "v1", "kind": "Pod", "metadata": { "name": "nginx-aaaa", "namespace": "default"}, "spec": { "containers": [{"name": "aaaa","image": "gcr.io/google_containers/busybox:latest","imagePullPolicy": "Never"}]}}' \
+http://103.103.103.183:8080/api/v1/namespaces/default/pods
+结果显示：
+
+3.结论
+需要预先满足：
+    1、pod需要能够与k8s master网络互通
+    2、镜像需要预装curl工具
+经过上述穿刺过程证明，Pod中再调用k8s接口部署存储集群pod，是可行的。
+
 #### kubernetes 1.8之后的启动参数
 
 1.关闭 swap
