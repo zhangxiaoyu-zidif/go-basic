@@ -6,18 +6,73 @@ Certified Kubernetes Administrator (CKA)
 
 ### 5% - Scheduling
 
-Use label selectors to schedule Pods.
+#### Use label selectors to schedule Pods.
+[ref here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
 
-Understand the role of DaemonSets.
+one usage scenario：
 
-Understand how resource limits can affect
-Pod scheduling.
+```shell
+kubectl label node 127.0.0.1 accelerator=nvidia-tesla-p100
+```
+some label limits:
 
-Understand how to run multiple schedulers
-and how to configure Pods to use them.
 
-Manually schedule a pod without
-a scheduler.
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-test
+spec:
+  containers:
+    - name: cuda-test
+      image: "k8s.gcr.io/cuda-vector-add:v0.1"
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+  nodeSelector:
+    accelerator: nvidia-tesla-p100
+```
+
+#### Understand the role of DaemonSets.
+A DaemonSet ensures that all (or some) Nodes run a copy of a Pod.
+[ref here](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-apps-v1
+  labels:
+    app: busybox-apps-v1  # important
+spec:
+  selector:
+    matchLabels:
+      name: busybox-apps-v1  # important
+  template:
+    metadata:
+      labels:
+        name: busybox-apps-v1
+    spec:
+      containers:
+      - name: busybox-apps-v1
+        image: busybox
+        imagePullPolicy: IfNotPresent
+```
+
+
+#### Understand how resource limits can affect Pod scheduling.
+[ref here](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
+
+When you create a Pod, the Kubernetes scheduler selects a node for the Pod to run on. Each node has a maximum capacity for each of the resource types: the amount of CPU and memory it can provide for Pods. The scheduler ensures that, for each resource type, the sum of the resource requests of the scheduled Containers is less than the capacity of the node. Note that although actual memory or CPU resource usage on nodes is very low, the scheduler still refuses to place a Pod on a node if the capacity check fails. This protects against a resource shortage on a node when resource usage later increases, for example, during a daily peak in request rate.
+
+actual memory or CPU resource = maximum allocable capacity - sum of all requested resources.
+It doest not care the really actual usage.
+
+
+#### Understand how to run multiple schedulers and how to configure Pods to use them.
+
+
+Manually schedule a pod without a scheduler.
 
 Display scheduler events.
 
