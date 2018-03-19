@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-apps-v1
+  labels:
+    app: busybox-apps-v1
+spec:
+  selector:
+    matchLabels:
+      name: busybox-apps-v1
+  template:
+    metadata:
+      labels:
+        name: busybox-apps-v1
+    spec:
+      containers:
+      - name: busybox-apps-v1
+        image: busybox
+        imagePullPolicy: IfNotPresent
