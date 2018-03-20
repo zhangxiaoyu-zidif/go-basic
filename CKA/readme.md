@@ -70,7 +70,35 @@ It doest not care the really actual usage.
 
 
 #### Understand how to run multiple schedulers and how to configure Pods to use them.
+```shell
+# create docker file
+cat <<EOF > DOCKERFILE
+FROM busybox
+ADD ./_output/dockerized/bin/linux/amd64/kube-scheduler /usr/local/bin/kube-scheduler
+EOF
+docker build -t my-kube-scheduler:1.0 .
+docker load -i my-kube-scheduler:1.0
 
+```
+
+if we set RBAC to enable, we should do
+```yaml
+
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: annotation-second-scheduler
+  labels:
+    name: multischeduler-example
+spec:
+  schedulerName: my-scheduler   # specify the scheduler name
+  containers:
+  - name: pod-with-second-annotation-container
+    image: k8s.gcr.io/pause:2.0
+```
 
 Manually schedule a pod without a scheduler.
 
