@@ -100,130 +100,123 @@ spec:
     image: k8s.gcr.io/pause:2.0
 ```
 
-Manually schedule a pod without a scheduler.
+#### Manually schedule a pod without a scheduler.
 
-Display scheduler events.
+#### Display scheduler events.
 
-Know how to configure the
-Kubernetes scheduler.
+#### Know how to configure the Kubernetes scheduler.
 
 ### 5% - Logging/Monitoring
 
-Understand how to monitor all
-cluster components.
+#### Understand how to monitor all cluster components.
 
-Understand how to monitor applications.
+#### Understand how to monitor applications.
 
-Manage cluster component logs.
+#### Manage cluster component logs.
 
-Manage application logs.
+#### Manage application logs.
 
 ### 8% - Application Lifecycle Management
 
-Understand Deployments and how to
-perform rolling updates and rollbacks.
+#### Understand Deployments and how to perform rolling updates and rollbacks.
 
-Know various ways to configure applications.
-Know how to scale applications.
+#### Know various ways to configure applications.Know how to scale applications.
 
-Understand the primitives necessary to
-create a self-healing application.
+#### Understand the primitives necessary to create a self-healing application.
 
 ### 11% - Cluster Maintenance
 
-Understand Kubernetes cluster
-upgrade process.
+#### Understand Kubernetes cluster upgrade process.
 
-Facilitate operating system upgrades.
+#### Facilitate operating system upgrades.
 
-Implement backup and restore methodologies.
+#### Implement backup and restore methodologies.
 
-12% - Security
+### 12% - Security
 
-Know how to configure authentication
+#### Know how to configure authentication
 and authorization.
 
-Understand Kubernetes security primitives.
+#### Understand Kubernetes security primitives.
 Know to configure network policies.
 
-Create and manage TLS certificates for
-cluster components.
+#### Create and manage TLS certificates for cluster components.
 
-Work with images securely.
+#### Work with images securely.
 
-Define security contexts.
+#### Define security contexts.
 
-Secure persistent key value store.
+#### Secure persistent key value store.
 
-Work with role-based access control.
+#### Work with role-based access control.
 
-7% - Storage
+### 7% - Storage
 
-Understand persistent volumes and know how
+#### Understand persistent volumes and know how
 to create them.
 
-Understand access modes for volumes.
+#### Understand access modes for volumes.
 
-Understand persistent volume claims primitive.
+#### Understand persistent volume claims primitive.
 
-Understand Kubernetes storage objects.
+#### Understand Kubernetes storage objects.
 
-Know how to configure applications with persistent storage.
+#### Know how to configure applications with persistent storage.
 
 ### 10% - Troubleshooting
 
-Troubleshoot application failure.
+#### Troubleshoot application failure.
 
-Troubleshoot control plane failure.
+#### Troubleshoot control plane failure.
 
-Troubleshoot worker node failure.
+#### Troubleshoot worker node failure.
 
-Troubleshoot networking.
+#### Troubleshoot networking.
 
-19% - Core Concepts
+### 19% - Core Concepts
 
-Understand the Kubernetes API primitives.
+#### Understand the Kubernetes API primitives.
 
-Understand the Kubernetes cluster architecture.
+#### Understand the Kubernetes cluster architecture.
 
-Understand Services and other network primitives.
+#### Understand Services and other network primitives.
 
 ### 11% - Networking
 
-Understand the networking configuration on the cluster nodes.
+#### Understand the networking configuration on the cluster nodes.
 
-Understand Pod networking concepts.
+#### Understand Pod networking concepts.
 
-Understand service networking.
+#### Understand service networking.
 
-Deploy and configure network load balancer.
+#### Deploy and configure network load balancer.
 
-Know how to use Ingress rules.
+#### Know how to use Ingress rules.
 
-Know how to configure and use the cluster DNS.
+#### Know how to configure and use the cluster DNS.
 
-Understand CNI.
+#### Understand CNI.
 
 ### 12% - Installation, Configuration & Validation
 
-Design a Kubernetes cluster.
+#### Design a Kubernetes cluster.
 
-Install Kubernetes masters and nodes, including the use of TLS bootstrapping.
+#### Install Kubernetes masters and nodes, including the use of TLS bootstrapping.
 
-Configure secure cluster communications.
+#### Configure secure cluster communications.
 
-Configure a Highly-Available Kubernetes cluster.
+#### Configure a Highly-Available Kubernetes cluster.
 
-Know where to get the Kubernetes release binaries.
+#### Know where to get the Kubernetes release binaries.
 
-Provision underlying infrastructure to deploy a Kubernetes cluster.
+#### Provision underlying infrastructure to deploy a Kubernetes cluster.
 
-Choose a network solution.
+#### Choose a network solution.
 
-Choose your Kubernetes infrastructure configuration.
+#### Choose your Kubernetes infrastructure configuration.
 
-Run end-to-end tests on your cluster.
+#### Run end-to-end tests on your cluster.
 
-Analyse end-to-end tests results.
+#### Analyse end-to-end tests results.
 
-Run Node end-to-end tests.
+#### Run Node end-to-end tests.
