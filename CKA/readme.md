@@ -81,9 +81,30 @@ docker load -i my-kube-scheduler:1.0
 
 ```
 
-if we set RBAC to enable, we should do
-```yaml
-
+if we set RBAC to enable, we should do， if not, skip it.
+```shell
+$ kubectl edit clusterrole system:kube-scheduler
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    annotations:
+      rbac.authorization.kubernetes.io/autoupdate: "true"
+    labels:
+      kubernetes.io/bootstrapping: rbac-defaults
+    name: system:kube-scheduler
+  rules:
+  - apiGroups:
+    - ""
+    resourceNames:
+    - kube-scheduler
+    - my-scheduler
+    resources:
+    - endpoints
+    verbs:
+    - delete
+    - get
+    - patch
+    - update
 ```
 
 ```yaml
@@ -101,10 +122,15 @@ spec:
 ```
 
 #### Manually schedule a pod without a scheduler.
+stop the kube-scheduler, and use `nodeName` to assign one pod to a specified node.
 
 #### Display scheduler events.
 
+```shell
+kubectl get events
+```
 #### Know how to configure the Kubernetes scheduler.
+
 
 ### 5% - Logging/Monitoring
 
