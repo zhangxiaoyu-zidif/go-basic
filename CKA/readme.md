@@ -123,6 +123,20 @@ spec:
 
 #### Manually schedule a pod without a scheduler.
 stop the kube-scheduler, and use `nodeName` to assign one pod to a specified node.
+```yaml
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod
+spec:
+  nodeName: 192.165.1.72    # use nodeName to specify the node without kube-scheduler
+  containers:
+  - name: test-pod
+    image: busybox:1.25
+    imagePullPolicy: Never
+  restartPolicy: "Never"
+
+```
 
 #### Display scheduler events.
 
