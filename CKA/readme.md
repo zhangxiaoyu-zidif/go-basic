@@ -145,6 +145,10 @@ kubectl get events
 ```
 
 #### Know how to configure the Kubernetes scheduler.
+[ref here](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/scheduler_extender.md)
+
+and [here](https://github.com/kubernetes/community/blob/master/contributors/devel/scheduler.md)
+
 
 
 ### 5% - Logging/Monitoring
