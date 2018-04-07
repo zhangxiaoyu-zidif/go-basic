@@ -143,6 +143,7 @@ spec:
 ```shell
 kubectl get events
 ```
+
 #### Know how to configure the Kubernetes scheduler.
 
 
