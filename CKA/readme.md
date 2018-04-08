@@ -149,21 +149,68 @@ kubectl get events
 
 and [here](https://github.com/kubernetes/community/blob/master/contributors/devel/scheduler.md)
 
+for example:
+add startup parameter in kube-scheduler, with --policy-config-file="xxx.json"
 
+xxx.json refer below:
+```json
+{
+  "predicates": [
+    {
+      "name": "HostName"
+    },
+    {
+      "name": "MatchNodeSelector"
+    },
+    {
+      "name": "PodFitsResources"
+    }
+  ],
+  "priorities": [
+    {
+      "name": "LeastRequestedPriority",
+      "weight": 1
+    }
+  ],
+  "extenders": [
+    {
+      "urlPrefix": "http://127.0.0.1:12345/api/scheduler",
+      "filterVerb": "filter",
+      "enableHttps": false
+    }
+  ]
+}
+```
 
 ### 5% - Logging/Monitoring
+```shell
+kubectl logs <pod name>
+```
+ref here: https://kubernetes.io/docs/concepts/cluster-administration/logging/
+
 
 #### Understand how to monitor all cluster components.
+ref: https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/
+
 
 #### Understand how to monitor applications.
 
+
 #### Manage cluster component logs.
+see: /var/log/<component name>.log
 
 #### Manage application logs.
+```shell
+kubectl logs <pod name>
+```
 
 ### 8% - Application Lifecycle Management
 
 #### Understand Deployments and how to perform rolling updates and rollbacks.
+
+```yaml
+
+```
 
 #### Know various ways to configure applications.Know how to scale applications.
 
