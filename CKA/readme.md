@@ -4,6 +4,11 @@ Certified Kubernetes Administrator (CKA)
 
 ## syllabus
 
+### first of all
+we should know how to install a cluster and create/distribute the rsa .etc
+
+ref here: https://github.com/markthink/cka-kubernetes
+
 ### 5% - Scheduling
 
 #### Use label selectors to schedule Pods.
