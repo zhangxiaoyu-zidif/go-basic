@@ -214,8 +214,45 @@ kubectl logs <pod name>
 #### Understand Deployments and how to perform rolling updates and rollbacks.
 
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-deployment
+  labels:
+    app: busybox
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.25
+```
+
+##### updates
+```yaml
 
 ```
+
+##### rollbacks
+if you want to review the rollout history, remember add `--record=true` when create the deployment
+```shell
+[root@k8s:/home/ubuntu/yaml]$  kubectl create -f deployment.yaml --record
+...
+[root@k8s:/home/ubuntu/yaml]$ kubectl rollout history deployment/busybox-deployment
+deployments "busybox-deployment"
+REVISION  CHANGE-CAUSE
+1         kubectl create --filename=deployment.yaml --record=true
+2         kubectl edit deployment/busybox-deployment
+```
+
+if you do not add `--record`, you can get CHANGE-CAUSE which always is <none>.
 
 #### Know various ways to configure applications.Know how to scale applications.
 
