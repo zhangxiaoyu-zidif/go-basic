@@ -237,7 +237,9 @@ spec:
 
 ##### updates
 ```yaml
-
+kubectl set image deployment/nginx-deployment nginx=nginx:1.91
+...
+kubectl edit deployment/nginx-deployment
 ```
 
 ##### rollbacks
@@ -254,7 +256,20 @@ REVISION  CHANGE-CAUSE
 
 if you do not add `--record`, you can get CHANGE-CAUSE which always is <none>.
 
+```shell
+kubectl rollout undo deployment/busybox-deployment --to-revision=1
+```
+
 #### Know various ways to configure applications.Know how to scale applications.
+1. edit the deployment directly
+```shell
+replicas: 2 # change it to other value
+```
+
+1. execute kubectl
+```shell
+kubectl scale deployment busybox-deployment --replicas=4
+```
 
 #### Understand the primitives necessary to create a self-healing application.
 
