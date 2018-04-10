@@ -273,6 +273,13 @@ kubectl scale deployment busybox-deployment --replicas=4
 
 #### Understand the primitives necessary to create a self-healing application.
 
+livenessProbe
+
+
+
+readinessProbe
+
+
 ### 11% - Cluster Maintenance
 
 #### Understand Kubernetes cluster upgrade process.
