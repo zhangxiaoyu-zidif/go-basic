@@ -274,11 +274,15 @@ kubectl scale deployment busybox-deployment --replicas=4
 #### Understand the primitives necessary to create a self-healing application.
 
 livenessProbe
-
+Periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated. 
 
 
 readinessProbe
+Periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails. Cannot be updated. 
 
+
+restartPolicy
+set it to be `Always`? I am not sure...
 
 ### 11% - Cluster Maintenance
 
