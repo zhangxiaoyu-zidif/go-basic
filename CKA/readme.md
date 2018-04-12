@@ -428,10 +428,9 @@ install: https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
 
 #### Configure a Highly-Available Kubernetes cluster.
 
-3 maters + 3 etcd + N work node.
+3 masters + 3 etcds + N work node.
 
 see https://kubernetes.io/docs/tasks/administer-cluster/highly-available-master/
-
 
 
 #### Know where to get the Kubernetes release binaries.
@@ -454,8 +453,17 @@ calico: network policy
 
 #### Choose your Kubernetes infrastructure configuration.
 
+
+
 #### Run end-to-end tests on your cluster.
+
+go run 
+
 
 #### Analyse end-to-end tests results.
 
+
+
 #### Run Node end-to-end tests.
+
+
