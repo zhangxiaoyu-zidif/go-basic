@@ -312,8 +312,7 @@ Know to configure network policies.
 
 ### 7% - Storage
 
-#### Understand persistent volumes and know how
-to create them.
+#### Understand persistent volumes and know how to create them.
 
 #### Understand access modes for volumes.
 
@@ -379,6 +378,8 @@ RequiredBy=docker.service
 ##### Calico
 [Calico](https://docs.projectcalico.org/v3.1/introduction/)
 
+install: https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
+
 #### Understand the networking configuration on the cluster nodes.
 
 
@@ -388,6 +389,7 @@ RequiredBy=docker.service
 
 
 #### Understand service networking.
+
 
 #### Deploy and configure network load balancer.
 
