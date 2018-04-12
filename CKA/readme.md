@@ -410,6 +410,8 @@ install: https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
 
 #### Deploy and configure network load balancer.
 
+
+
 #### Know how to use Ingress rules.
 
 #### Know how to configure and use the cluster DNS.
