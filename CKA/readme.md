@@ -325,17 +325,33 @@ Know to configure network policies.
 ### 10% - Troubleshooting
 
 #### Troubleshoot application failure.
+kbuectl logs <pod name>
+
+kubectl get event
+scheduling / mount / oom / ...
+
 
 #### Troubleshoot control plane failure.
 
+component(sheduler, controller-manager, apiserver) disabled.
+
 #### Troubleshoot worker node failure.
 
+node notready, resource(memory, cpu, disk pressure)
+
 #### Troubleshoot networking.
+
+flanneld/calico disabled.
+
+IP pool is empty
+
 
 ### 19% - Core Concepts
 
 
 #### Understand the Kubernetes API primitives.
+
+curl / kubectl command.
 
 
 #### Understand the Kubernetes cluster architecture.
@@ -343,6 +359,7 @@ Know to configure network policies.
 
 #### Understand Services and other network primitives.
 
+service / endpoint / ingress
 
 ### 11% - Networking
 
@@ -407,13 +424,33 @@ install: https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
 
 #### Configure secure cluster communications.
 
+
+
 #### Configure a Highly-Available Kubernetes cluster.
+
+3 maters + 3 etcd + N work node.
+
+see https://kubernetes.io/docs/tasks/administer-cluster/highly-available-master/
+
+
 
 #### Know where to get the Kubernetes release binaries.
 
+https://github.com/kubernetes/kubernetes/releases
+
 #### Provision underlying infrastructure to deploy a Kubernetes cluster.
 
+openstack VM
+
+VM
+
+bare metal with Linux/Windows host OS
+
 #### Choose a network solution.
+
+flannel: networking
+
+calico: network policy
 
 #### Choose your Kubernetes infrastructure configuration.
 
