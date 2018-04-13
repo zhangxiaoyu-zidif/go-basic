@@ -294,9 +294,14 @@ kubectl rollout undo deployment/busybox-deployment --to-revision=1
 replicas: 2 # change it to other value
 ```
 
-1. execute kubectl
+2. execute kubectl
 ```shell
 kubectl scale deployment busybox-deployment --replicas=4
+```
+
+3. kubectl patch
+```shell
+kubectl patch deployment busybox-deployment --patch '{"spec": {"replicas": 5}}'
 ```
 
 #### Understand the primitives necessary to create a self-healing application.
