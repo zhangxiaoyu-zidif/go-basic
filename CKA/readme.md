@@ -143,6 +143,34 @@ spec:
 
 ```
 
+daemonset's replicas could deploy without scheduler.
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-ds
+  labels:
+    k8s-app: busybox-ds
+spec:
+  selector:
+    matchLabels:
+      name: busybox-ds
+  template:
+    metadata:
+      labels:
+        name: busybox-ds
+    spec:
+      containers:
+      - name: busybox-ds
+        image: busybox:1.25
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+```
+
 #### Display scheduler events.
 
 ```shell
