@@ -228,6 +228,13 @@ ref: https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/
 
 #### Understand how to monitor applications.
 
+```shell
+$ kubectl create -f deploy/kube-config/influxdb/
+$ kubectl create -f deploy/kube-config/rbac/heapster-rbac.yaml
+
+#and run:
+kubectl top node/pod <nodename>/<podname>
+```
 
 #### Manage cluster component logs.
 see: /var/log/<component name>.log
@@ -361,7 +368,7 @@ Know to configure network policies.
 kbuectl logs <pod name>
 
 kubectl get event
-scheduling / mount / oom / ...
+scheduling / mount / oom / image pulled failed 
 
 
 #### Troubleshoot control plane failure.
@@ -377,6 +384,7 @@ node notready, resource(memory, cpu, disk pressure)
 flanneld/calico disabled.
 
 IP pool is empty
+
 
 
 ### 19% - Core Concepts
