@@ -334,8 +334,7 @@ set it to be `Always`? I am not sure...
 
 ### 12% - Security
 
-#### Know how to configure authentication
-and authorization.
+#### Know how to configure authentication and authorization.
 
 #### Understand Kubernetes security primitives.
 Know to configure network policies.
@@ -345,6 +344,7 @@ Know to configure network policies.
 #### Work with images securely.
 
 #### Define security contexts.
+ref here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 
 #### Secure persistent key value store.
 
