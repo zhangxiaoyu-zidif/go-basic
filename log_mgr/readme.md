@@ -22,3 +22,5 @@ ES， elasticSearch，开源搜索引擎，提供基于http restful的web接口�
 
 Hadoop，分布式计算框架，能够对大量数据进行分布式处理的平台。
 
+Storm 实时计算框架。
+
