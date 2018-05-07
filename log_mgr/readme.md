@@ -13,3 +13,5 @@ App -> log Agent -> Kafka -> ElasticResearch
                        |---> Storm
                           
 Kafka 用于解耦日志管理，如果有新的需求后，仅需要在kafka增加一个topic即可。
+
+logAent 可以读取etcd的配置，获取日志。
