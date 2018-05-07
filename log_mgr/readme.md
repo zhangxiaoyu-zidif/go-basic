@@ -16,7 +16,7 @@ Kafka 用于解耦日志管理，如果有新的需求后，仅需要在kafka增
 
 logAent 可以读取etcd的配置，进而获取日志。日志收集客户端，用于收集服务器上的日志。
 
-Kafka，高吞吐量的分布式队列，linkin开发，apache的开源项目。
+Kafka，高吞吐量的分布式队列，linkin开发，apache的开源项目。主要和应用解耦，将内容放入消息队列，而不关心谁去消费它。
 
 ES， elasticSearch，开源搜索引擎，提供基于http restful的web接口。
 
