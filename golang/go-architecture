@@ -1,4 +1,1 @@
-
-1. https://github.com/go-kit/kit
-
-2. https://github.com/koding/kite
+# grpc是一个高性能的开源RTC框架，gRPC 基于 HTTP/2 标准设计，带来诸如双向流、流控、头部压缩、单 TCP 连接上的多复用请求等特。
