@@ -3,7 +3,9 @@
 
 1. 怎样使pod 和 pod之间进行通讯？ 一个请求进来，pod之间有时也需要通讯。
 kubernetes是要安装网络插件才能正常工作。
+参考：https://kubernetes.io/docs/concepts/cluster-administration/networking/
 
+Flannel 或者 
 2. 一般研究k8s技术，有多少工程师一起研究？
 
 3. k8s的监控系统 能够报警吗？比如微信公众号，或有这样的接口，让我们自己开发？
