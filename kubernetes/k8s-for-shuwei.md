@@ -5,14 +5,20 @@
 kubernetes是要安装网络插件才能正常工作。
 参考：https://kubernetes.io/docs/concepts/cluster-administration/networking/
 
-Flannel 或者 
+Flannel 或者 calico是主要的选项。
+
+
+
 2. 一般研究k8s技术，有多少工程师一起研究？
 
 3. k8s的监控系统 能够报警吗？比如微信公众号，或有这样的接口，让我们自己开发？
 
 4. 可以怎样倒出每个pod内的日志？ kubectl logs 命令如果要看最后200行，或全部的日志用什么命令？
 
+查看系统的日志，或者直接将各个组件的日志导出。docker容器的日志。
+
 5. 有哪些帮助trouble shooting的常用命令？
+
 
 6. 部署的脚本用ansible，如您所说，可以参看openshift 的部署脚本，您这儿有没有部署openshift的脚本呢？
 
@@ -33,4 +39,4 @@ Flannel 或者
 14. kubectl create -f xx.yaml  和  kubectl apply -f xx.yaml 有什么区别？
 
 15. 怎样设计使得有状态的组件获得高可靠性？
-
+HA， 3个master， 3个 etcd组群。master做到高可用。应用可以根据副本做到高可用。
