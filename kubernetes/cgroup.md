@@ -50,6 +50,10 @@ spec:
         args: ["-c", "while true; do echo hello; sleep 10;done"]
 ```
 6. 通过docker ps命令确认需要修改memory limit的container的container id。这个还需要配合kubectl get pod xxx -o json的container status内容一起看。
+
+**memory-swap和memory设置成相同就是为了让container无法使用多余swap的值**
+* Memory and MemorySwap are set to the same value, this prevents containers from using any swap.
+
 ```shell
 docker update --memory-swap 300M --memory 300M dc5a14edf475
 ```
