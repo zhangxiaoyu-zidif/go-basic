@@ -2,7 +2,7 @@
 
 echo "execute delete terminating pod time:" >> /var/log/delete_pod_log
 current=$(date +%Y-%m-%dT%T)
-echo $current >> delete_pod_log
+echo $current >> /var/log/delete_pod_log
 
 target_podname=$(/usr/bin/kubectl get pods -n appos | grep ' Terminating ' | awk '{print $1}')
 
@@ -16,10 +16,10 @@ do
 
         if [ $timeMinus -ge 1 ]; then
                 /usr/bin/kubectl get pod $podname -n appos -o wide >> /var/log/delete_pod_log
+                /usr/bin/kubectl patch pod $podname --patch '{"metadata": {"$deleteFromPrimitiveList/finalizers":["pod.beta1.sigma.ali/cni-allocated"]}}' -n appos
                 count=$(($count+1))
                 if [ $count == 10 ]; then
                         exit 0
                 fi
-                # kubectl patch pod $podname --patch '{"metadata": {"$deleteFromPrimitiveList/finalizers":["pod.beta1.sigma.ali/cni-allocated"]}}' -n appos
         fi
 done
