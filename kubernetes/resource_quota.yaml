@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mock-pod
+spec:
+  containers:
+  - name: main
+    image: busybox
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    resources:
+      limits:
+        memory: "200Mi"
+        cpu: "700m"
+      requests:
+        memory: "200Mi"
+        cpu: "700m"
+  - name: sidercar1
+    image: busybox
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    resources:
+      limits:
+        memory: "100Mi"
+        cpu: "100m"
+      requests:
+        memory: "10Mi"
+        cpu: "10m"
+  - name: sidercar2
+    image: busybox
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    resources:
+      limits:
+        memory: "100Mi"
+        cpu: "100m"
+      requests:
+        memory: "10Mi"
+        cpu: "10m"
